@@ -1,6 +1,8 @@
 package com.bitxon.user.application.service;
 
 import com.bitxon.user.api.User;
+import com.bitxon.user.application.client.tag.TagServiceClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -8,6 +10,9 @@ import java.util.List;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private TagServiceClient tagServiceClient;
 
     public List<User> search() {
         return List.of(
@@ -19,6 +24,7 @@ public class UserService {
 
     public User save(User userToSave) {
         userToSave.setId(17L);
+        userToSave.setTag(tagServiceClient.getTag());
         return userToSave;
     }
 }

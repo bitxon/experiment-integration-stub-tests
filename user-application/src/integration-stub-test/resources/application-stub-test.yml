@@ -1,1 +1,3 @@
 # Here we can override application properties
+
+tag-service-client.url: http://localhost:${wiremock.server.port}

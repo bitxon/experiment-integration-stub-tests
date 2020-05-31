@@ -4,10 +4,12 @@ import com.bitxon.user.api.User;
 import com.bitxon.user.application.UserApplication;
 import com.bitxon.user.test.client.UserClient;
 import com.bitxon.user.test.config.TestConfig;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -17,12 +19,14 @@ import org.springframework.test.context.TestPropertySource;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("stub-test")
 @TestPropertySource(value = "classpath:test-local.yml")
 @SpringBootTest(classes = UserApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = TestConfig.class, loader = SpringBootContextLoader.class)
+@AutoConfigureWireMock(port = 0)
 public class WebLayerTest {
 
     @Autowired
@@ -46,6 +50,9 @@ public class WebLayerTest {
     @Test
     public void createUser() {
 
+        WireMock.stubFor(get(urlEqualTo("/tag"))
+                .willReturn(aResponse().withBody("#z-rex-0893")));
+
         final User userToSave = User.builder()
                 .email("fourth@email.com")
                 .dateOfBirth(LocalDate.of(1994, 4, 4))
@@ -59,7 +66,8 @@ public class WebLayerTest {
 
         assertThat(response.getBody()).as("Check body")
                 .isNotNull()
-                .hasNoNullFieldsOrProperties();
+                .hasNoNullFieldsOrProperties()
+                .hasFieldOrPropertyWithValue("tag", "#z-rex-0893");
     }
 
     private List<User> prepareAllUsers() {
