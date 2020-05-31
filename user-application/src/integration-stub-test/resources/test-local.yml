@@ -1,0 +1,2 @@
+# Here we store properties related to tests
+user-service.url: http://localhost:${local.server.port}
