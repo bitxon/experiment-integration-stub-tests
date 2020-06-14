@@ -1,0 +1,2 @@
+# Here we can override application properties for spring-boot application
+tag-service-client.url: http://localhost:${wiremock.server.port}
