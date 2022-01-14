@@ -6,7 +6,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.RELEASE</version>
+        <version>2.6.2</version>
+        <relativePath/>
     </parent>
 
     <artifactId>integration-stub-tests</artifactId>
@@ -17,6 +18,7 @@
         <java.version>11</java.version>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
+        <spring-cloud-contract-wiremock.version>2.2.3.RELEASE</spring-cloud-contract-wiremock.version>
     </properties>
 
     <dependencies>
@@ -53,7 +55,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-contract-wiremock</artifactId>
-            <version>2.2.3.RELEASE</version>
+            <version>${spring-cloud-contract-wiremock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
